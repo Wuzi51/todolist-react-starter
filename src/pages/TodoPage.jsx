@@ -29,7 +29,7 @@ const TodoPage = () => {
       TodoPage
       <Header />
       <TodoInput />
-      <TodoCollection todos={dummyTodos} />
+      <TodoCollection />
       <Footer />
     </div>
   );
