@@ -1,14 +1,11 @@
 import TodoItem from './TodoItem';
 
-const TodoCollection = () => {
+const TodoCollection = ({todos, onSave, onChangeMode, onAddTodo, onDelete}) => {
   return (
     <div>
-      TodoCollection
-      <TodoItem />
-      <TodoItem />
-      <TodoItem />
-      <TodoItem />
-      <TodoItem />
+      {todos.map(todo => {
+        return <TodoItem key={todo.id} todo={todo}/>
+      })}
     </div>
   );
 };
