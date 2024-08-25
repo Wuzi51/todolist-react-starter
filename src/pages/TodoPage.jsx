@@ -28,11 +28,11 @@ const TodoPage = () => {
   const [inputValue, setInpputValue] = useState('')
   const [todo, setTodo] = useState(dummyTodos);
   // 檢查輸入內容是否為空
-  const handleInput = (value) => {
+  const handleChange = (value) => {
     setInpputValue(value)
   }
 
-  const handleTodo = () => {
+  const handleAddTodo = () => {
     if(inputValue.length === 0) {
       return
     }
@@ -51,14 +51,35 @@ const TodoPage = () => {
     setInpputValue('')
   }
 
+  const handleKeyDonw = () => {
+     if (inputValue.length === 0) {
+       return;
+     }
+
+     setTodo((prevTodos) => {
+       return [
+         ...prevTodos,
+         {
+           id: Math.random() * 100,
+           title: inputValue,
+           isDone: false,
+         },
+       ];
+     });
+     // 重置輸入欄位
+     setInpputValue('');
+  }
+
+
   return (
     <div>
       TodoPage
       <Header />
       <TodoInput 
         inputValue={inputValue} 
-        onChange={handleInput}
-        onAddTodo={handleTodo}
+        onChange={handleChange}
+        onAddTodo={handleAddTodo}
+        onKeyDone={handleKeyDonw}
       />
       <TodoCollection todos={todo}/>
       <Footer />
