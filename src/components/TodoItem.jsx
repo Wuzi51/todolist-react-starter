@@ -5,6 +5,7 @@ import {
   CheckCircleIcon,
   CheckHoverIcon,
 } from 'assets/images';
+import { useRef } from 'react';
 
 const StyledTaskItem = styled.div`
   min-height: 52px;
@@ -102,8 +103,22 @@ const StyledTaskItem = styled.div`
 `;
 
 const TodoItem = ({todo, onChangeMode, onSave, onDelte, onToggleDone}) => {
+  const inputRef = useRef(null)
+  const handelKeyDonw = (e) => {
+    if(inputRef.current.value.length > 0 && e.key === 'Enter') {
+      // 透過input取得當前輸入框的內容
+      onSave?.({id: todo.id, title: inputRef.current.value})
+    }
+
+    if(e.key === 'Escape') {
+      onChangeMode?.({id: todo.id, isEdit: false})
+    }
+
+  }
   return (
-    <StyledTaskItem className={clsx('', { done: todo.isDone })}>
+    <StyledTaskItem
+      className={clsx('', { done: todo.isDone, edit: todo.isEdit })}
+    >
       <div className="task-item-checked">
         <span
           className="icon icon-checked"
@@ -112,16 +127,17 @@ const TodoItem = ({todo, onChangeMode, onSave, onDelte, onToggleDone}) => {
           }}
         />
       </div>
-      <div className="task-item-body">
-        <span
-          className="task-item-body-text"
-          onClick={() => {
-            onToggleDone?.(todo.id);
-          }}
-        >
-          {todo.title}
-        </span>
-        <input className="task-item-body-input" />
+      <div
+        className="task-item-body"
+        onDoubleClick={() => onChangeMode?.({ id: todo.id, isEdit: true })}
+      >
+        <span className="task-item-body-text">{todo.title}</span>
+        <input
+          ref={inputRef}
+          className="task-item-body-input"
+          onKeyDown={handelKeyDonw}
+          defaultValue={todo.title}
+        />
       </div>
       <div className="task-item-action ">
         <button className="btn-reset btn-destroy icon"></button>

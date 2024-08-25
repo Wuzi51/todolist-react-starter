@@ -26,7 +26,7 @@ const dummyTodos = [
 
 const TodoPage = () => {
   const [inputValue, setInpputValue] = useState('')
-  const [todo, setTodo] = useState(dummyTodos);
+  const [todos, setTodos] = useState(dummyTodos);
   // 檢查輸入內容是否為空
   const handleChange = (value) => {
     setInpputValue(value)
@@ -37,7 +37,7 @@ const TodoPage = () => {
       return
     }
 
-    setTodo((prevTodos) => {
+    setTodos((prevTodos) => {
       return [
         ...prevTodos,
         {
@@ -56,7 +56,7 @@ const TodoPage = () => {
       return;
     }
 
-    setTodo((prevTodos) => {
+    setTodos((prevTodos) => {
       return [
         ...prevTodos,
         {
@@ -70,13 +70,39 @@ const TodoPage = () => {
   }
 
   const handleToggleDone = (id) => {
-    setTodo((prevTodos) => {
+    setTodos((prevTodos) => {
       return prevTodos.map((todo) => {
         if(todo.id === id) {
           return {
             ...todo,
             // 被點擊之後與原本的內容做相反
             isDone: !todo.isDone,
+          }
+        }
+        return todo
+      })
+    })
+  }
+
+  const handleChangeMode = ({id, isEdit}) => {
+    setTodos((prevTodos) => {
+      return prevTodos.map((todo) => {
+        if(todo.id === id) {
+          return {
+            ...todo, isEdit 
+          }
+        }
+        return { ...todo, isEdit: false };
+      })
+    })
+  }
+
+  const handleSave = ({id, title}) => {
+    setTodos((prevTodos) => {
+      return prevTodos.map((todo) => {
+        if(todo.id === id) {
+          return {
+            ...todo, title, isEdit: false
           }
         }
         return todo
@@ -95,8 +121,10 @@ const TodoPage = () => {
         onKeyDone={handelKeyDonw}
       />
       <TodoCollection 
-        todos={todo}
+        todos={todos}
         onToggleDone={handleToggleDone}
+        onChangeMode={handleChangeMode}
+        onSave={handleSave}
       />
       <Footer />
     </div>
