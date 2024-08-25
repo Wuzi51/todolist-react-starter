@@ -103,15 +103,24 @@ const StyledTaskItem = styled.div`
 
 const TodoItem = ({todo, onChangeMode, onSave, onDelte, onToggleDone}) => {
   return (
-    <StyledTaskItem className={clsx('',{done: todo.isDone})}>
+    <StyledTaskItem className={clsx('', { done: todo.isDone })}>
       <div className="task-item-checked">
-        <span className="icon icon-checked" />
+        <span
+          className="icon icon-checked"
+          onClick={() => {
+            onToggleDone?.(todo.id);
+          }}
+        />
       </div>
       <div className="task-item-body">
-        <span className="task-item-body-text" 
+        <span
+          className="task-item-body-text"
           onClick={() => {
-            onToggleDone?.(todo.id)
-        }}>{todo.title}</span>
+            onToggleDone?.(todo.id);
+          }}
+        >
+          {todo.title}
+        </span>
         <input className="task-item-body-input" />
       </div>
       <div className="task-item-action ">
