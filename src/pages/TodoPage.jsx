@@ -69,6 +69,21 @@ const TodoPage = () => {
     setInpputValue('');
   }
 
+  const handleToggleDone = (id) => {
+    setTodo((prevTodos) => {
+      return prevTodos.map((todo) => {
+        if(todo.id === id) {
+          return {
+            ...todo,
+            // 被點擊之後與原本的內容做相反
+            isDone: !todo.isDone,
+          }
+        }
+        return todo
+      })
+    })
+  }
+
   return (
     <div>
       TodoPage
@@ -79,7 +94,10 @@ const TodoPage = () => {
         onAddTodo={handleAddTodo}
         onKeyDone={handelKeyDonw}
       />
-      <TodoCollection todos={todo}/>
+      <TodoCollection 
+        todos={todo}
+        onToggleDone={handleToggleDone}
+      />
       <Footer />
     </div>
   );
