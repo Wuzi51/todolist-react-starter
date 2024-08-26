@@ -25,31 +25,31 @@ const dummyTodos = [
 ];
 
 const TodoPage = () => {
-  const [inputValue, setInpputValue] = useState('')
+  const [inputValue, setInpputValue] = useState('');
   const [todos, setTodos] = useState(dummyTodos);
   // 檢查輸入內容是否為空
   const handleChange = (value) => {
-    setInpputValue(value)
-  }
+    setInpputValue(value);
+  };
 
   const handleAddTodo = () => {
-    if(inputValue.length === 0) {
-      return
+    if (inputValue.length === 0) {
+      return;
     }
 
     setTodos((prevTodos) => {
       return [
         ...prevTodos,
         {
-         id: Math.random() * 100,
-         title: inputValue,
-         isDone: false, 
-        }
-      ]
-    })
+          id: Math.random() * 100,
+          title: inputValue,
+          isDone: false,
+        },
+      ];
+    });
     // 重置輸入欄位
-    setInpputValue('')
-  }
+    setInpputValue('');
+  };
 
   const handelKeyDonw = () => {
     if (inputValue.length === 0) {
@@ -67,66 +67,82 @@ const TodoPage = () => {
       ];
     });
     setInpputValue('');
-  }
+  };
 
   const handleToggleDone = (id) => {
     setTodos((prevTodos) => {
       return prevTodos.map((todo) => {
-        if(todo.id === id) {
+        if (todo.id === id) {
           return {
             ...todo,
             // 被點擊之後與原本的內容做相反
             isDone: !todo.isDone,
-          }
+          };
         }
-        return todo
-      })
-    })
-  }
+        return todo;
+      });
+    });
+  };
 
-  const handleChangeMode = ({id, isEdit}) => {
+  const handleChangeMode = ({ id, isEdit }) => {
     setTodos((prevTodos) => {
       return prevTodos.map((todo) => {
-        if(todo.id === id) {
+        if (todo.id === id) {
           return {
-            ...todo, isEdit 
-          }
+            ...todo,
+            isEdit,
+          };
         }
         return { ...todo, isEdit: false };
-      })
-    })
-  }
+      });
+    });
+  };
 
-  const handleSave = ({id, title}) => {
+  const handleSave = ({ id, title }) => {
     setTodos((prevTodos) => {
       return prevTodos.map((todo) => {
-        if(todo.id === id) {
+        if (todo.id === id) {
           return {
-            ...todo, title, isEdit: false
-          }
+            ...todo,
+            title,
+            isEdit: false,
+          };
         }
-        return todo
-      })
-    })
-  }
+        return todo;
+      });
+    });
+  };
+
+  const handleDelete = (id) => {
+    setTodos((prevTodos) => {
+      return prevTodos.filter((todo) => {
+        if (todo.id !== id) {
+          return {
+            todo,
+          };
+        }
+      });
+    });
+  };
 
   return (
     <div>
       TodoPage
       <Header />
-      <TodoInput 
-        inputValue={inputValue} 
+      <TodoInput
+        inputValue={inputValue}
         onChange={handleChange}
         onAddTodo={handleAddTodo}
         onKeyDone={handelKeyDonw}
       />
-      <TodoCollection 
+      <TodoCollection
         todos={todos}
         onToggleDone={handleToggleDone}
         onChangeMode={handleChangeMode}
         onSave={handleSave}
+        onDelete={handleDelete}
       />
-      <Footer />
+      <Footer todos={todos} />
     </div>
   );
 };

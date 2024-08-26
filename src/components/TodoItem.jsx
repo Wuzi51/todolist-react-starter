@@ -102,7 +102,7 @@ const StyledTaskItem = styled.div`
   }
 `;
 
-const TodoItem = ({todo, onChangeMode, onSave, onDelte, onToggleDone}) => {
+const TodoItem = ({todo, onChangeMode, onSave, onDelete, onToggleDone}) => {
   const inputRef = useRef(null)
   const handelKeyDonw = (e) => {
     if(inputRef.current.value.length > 0 && e.key === 'Enter') {
@@ -140,7 +140,11 @@ const TodoItem = ({todo, onChangeMode, onSave, onDelte, onToggleDone}) => {
         />
       </div>
       <div className="task-item-action ">
-        <button className="btn-reset btn-destroy icon"></button>
+        <button className="btn-reset btn-destroy icon"
+          onClick={() => {
+            onDelete?.(todo.id)
+          }}
+        ></button>
       </div>
     </StyledTaskItem>
   );
